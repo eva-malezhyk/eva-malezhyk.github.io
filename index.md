@@ -2,6 +2,7 @@
 
 ## Demos
 
-- [Bouncy Ball](01-ball)
+
 
 ## Projects
+- [Interactive scene](02-clicking game)
