@@ -3,8 +3,10 @@
 ## Demos
 -[Ball spawn](03-ball-object)
 -[Ball Array](05-ball-array)
+-[Perli Noise Ball](06-noise-ball)
 
 
 ## Projects
 - [Interactive scene](clicking-game)
 - [array assignment](04-array-assignment)
+- 

@@ -1,6 +1,6 @@
-// Project Title
-// Your Name
-// Date
+// Find the numbers
+// Ieva Malezhyk
+// 13/10/2023
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
@@ -12,4 +12,5 @@ function setup() {
 
 function draw() {
   background(220);
+  parseFloat("10");
 }
