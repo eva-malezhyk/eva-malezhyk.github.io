@@ -8,5 +8,5 @@
 
 ## Projects
 - [Interactive scene](clicking-game)
-- [array assignment](04-array-assignment)
+- [array assignment](array-assignment)
 - 
