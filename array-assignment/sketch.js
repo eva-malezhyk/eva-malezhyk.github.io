@@ -7,18 +7,18 @@
 
 let trivia = [
   {
-    question: "What is the capital of France?",
-    choices: ["Paris", "London", "Berlin", "Madrid"],
+    question: "How many stars are on the Euroupean Union flag?",
+    choices: ["12", "14", "9", "22"],
     correctAnswer: 0
   },
   {
-    question: "Which planet is known as the Red Planet?",
-    choices: ["Earth", "Mars", "Jupiter", "Venus"],
+    question: "What is the most popular drink if it's not alcohol?",
+    choices: ["tea", "coffee", "orange juice", "lemonade"],
     correctAnswer: 1
   },
   {
-    question: "What is the largest mammal in the world?",
-    choices: ["Elephant", "Giraffe", "Blue Whale", "Kangaroo"],
+    question: "Which animal can be seen on a Porche logo?",
+    choices: ["Elephant", "Dog", "Horse", "Jaguar"],
     correctAnswer: 2
   }
 ];
