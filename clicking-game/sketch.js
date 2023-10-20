@@ -1,5 +1,8 @@
-// Requirements: When you click on circles, 'mousePressed()' starts working. When time is up and the game is over you can click space 'keyPressed()' and restart the game.
-// For extra for experts I attempted to add text, and I'm not sure if we ever learned about adding a score in class, but I added a score to the game, a timer, and I learned about createVector() which is used to create 2D objects and 3D objects. In my case I used it to create a 2D object and it generates the circle to appear in random spots after being clicked.
+// Requirements: When you click on circles, 'mousePressed()' starts working. 
+//When time is up and the game is over you can click space 'keyPressed()' and restart the game.
+// For extra for experts I attempted to add text, and I'm not sure if we ever learned about adding a score in class, but I 
+//added a score to the game, a timer, and I learned about createVector() which is used to create 2D objects and 3D objects. 
+//In my case I used it to create a 2D object and it generates the circle to appear in random spots after being clicked.
 
 //declaring variables
 let object;
