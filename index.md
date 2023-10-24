@@ -7,6 +7,7 @@
 -[Perli Noise Ball](06-noise-ball)
 -[Sounds and images](08-sound)
 -[Terrain Generation](09-terrain)
+-[Draw a Grid](10-2d-grid)
 
 ## Projects
 - [Interactive scene](clicking-game)
