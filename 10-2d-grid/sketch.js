@@ -5,7 +5,7 @@
 
 let grid;
 let cellSize;
-const GRID_SIZE = 15;
+const GRID_SIZE = 5;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -19,9 +19,23 @@ function setup() {
   grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
 }
 
+
+
 function draw() {
   background(220);
   displayGrid();
+}
+
+function keyPressed(){
+  let y =  Math.floor(mouseY/cellSize);
+  let x =  Math.floor(mouseX/cellSize);
+
+  if (grid[y][x] === 0){
+    grid[y][x] = 1;
+  }
+  else if  (grid[y][x] === 1){
+    grid[y][x] === 0;
+  
 }
 
 function keyTyped(){
