@@ -33,9 +33,9 @@ function keyPressed(){
   if (grid[y][x] === 0){
     grid[y][x] = 1;
   }
-  else if  (grid[y][x] === 1){
+  else if (grid[y][x] === 1){
     grid[y][x] === 0;
-  
+  }
 }
 
 function keyTyped(){
