@@ -13,4 +13,4 @@
 ## Projects
 - [Interactive scene](clicking-game)
 - [array assignment](array-assignment)
-- 
+- [Grid assignment](grid-assignment)
