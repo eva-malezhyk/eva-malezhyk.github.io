@@ -9,6 +9,8 @@
 -[Terrain Generation](09-terrain)
 -[Draw a Grid](10-2d-grid)
 -[Grid Neighbour](11-neighbour)
+-[Game of Life](13-Game-of-Life)
+-[Character](14-character)
 
 ## Projects
 - [Interactive scene](clicking-game)
