@@ -32,9 +32,14 @@ let grid = [
 
 let cellSize;
 const GRID_SIZE = 20;
+let playerX = 17;
+let playerY = 2;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+  grid[playerY][playerX] = 9;
+
   if (height > width){
     cellSize = width / GRID_SIZE;
   }
@@ -65,6 +70,40 @@ function keyPressed(){
   }
 }
 
+function keyTyped(){
+  if (key === "s") { //move down
+    movePlayer(0, 1);
+  }
+  else if (key === "w") { //move up
+    movePlayer(0, -1);
+  }
+  else if (key === "a") { //move left
+    movePlayer(-1, 0);
+  }
+  else if (key === "d") { //move right
+    movePlayer(1, 0);
+  }
+}
+
+function movePlayer(x, y) {
+  //edge case check
+  if (playerX + x >= 0 && playerX + x < GRID_SIZE &&
+      playerY + y >= 0 && playerY + y < GRID_SIZE) {
+    
+    //check if running into a wall
+    if (grid[playerY + y][playerX + x] === 0) {
+      let tempX = playerX;
+      let tempY = playerY;
+
+      playerX += x;
+      playerY += y;
+
+      //update grid
+      grid[playerY][playerX] = 9;
+      grid[tempY][tempX] = 0;
+    }
+  }
+}
 
 function displayGrid(){
   for (let y = 0; y < GRID_SIZE; y++ ){
@@ -80,6 +119,9 @@ function displayGrid(){
       }
       if(grid[y][x] === 3){
         fill("Aqua");
+      }
+      if(grid[y][x] === 9){
+        fill("Crimson");
       }
       rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }

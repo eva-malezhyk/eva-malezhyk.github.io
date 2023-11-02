@@ -4,19 +4,17 @@
 
 
 let grid;
-const GRID_SIZE = 40;
+const GRID_SIZE = 30;
 let cellSize;
-let autoPlay = true;
-let gosperGun;
-
-function preload(){
-  gosperGun = loadJSON("gosper-gum.json");
-}
-
+let playerX = 0;
+let playerY = 0;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth*0.8, windowHeight*0.8);
   grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
+
+  //put player in grid
+  grid[playerY][playerX] = 9;
 
   if (height > width) {
     cellSize = width/GRID_SIZE;
@@ -28,9 +26,6 @@ function setup() {
 
 function draw() {
   background(220);
-  if (autoPlay && frameCount % 10 === 0) {
-    grid = nextTurn();
-  }
   displayGrid();
 }
 
@@ -41,64 +36,38 @@ function keyTyped() {
   else if (key === "e") {
     grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
-  else if (key === " ") {
-    grid = nextTurn();
+  else if (key === "s") { //move down
+    movePlayer(0, 1);
   }
-  else if (key === "a") {
-    autoPlay = !autoPlay;
+  else if (key === "w") { //move up
+    movePlayer(0, -1);
   }
-  else if (key === "g") {
-    grid = gosperGun;
+  else if (key === "a") { //move left
+    movePlayer(-1, 0);
+  }
+  else if (key === "d") { //move right
+    movePlayer(1, 0);
   }
 }
 
-function nextTurn() {
-  let nextTurnGrid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
+function movePlayer(x, y) {
+  //edge case check
+  if (playerX + x >= 0 && playerX + x < GRID_SIZE &&
+      playerY + y >= 0 && playerY + y < GRID_SIZE) {
+    
+    //check if running into a wall
+    if (grid[playerY + y][playerX + x] === 0) {
+      let tempX = playerX;
+      let tempY = playerY;
 
-  //look at every cell
-  for (let y = 0; y < GRID_SIZE; y++) {
-    for (let x = 0; x < GRID_SIZE; x++) {
-      //count neighbours
-      let neighbours = 0;
+      playerX += x;
+      playerY += y;
 
-      //look at all cells around in a 3x3 grid
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          //detect edge cases
-          if (y+i >= 0 && y+i < GRID_SIZE && x+j >= 0 && x+j < GRID_SIZE) {
-            neighbours += grid[y+i][x+j];
-          }
-        }
-      }
-      
-      //be careful about counting self
-      neighbours -= grid[y][x];
-
-      //apply rules
-      if (grid[y][x] === 1) { //alive
-        if (neighbours === 2 || neighbours === 3) {
-          //stay alive
-          nextTurnGrid[y][x] = 1;
-        }
-        else {
-          //died - lonely or overpopulation
-          nextTurnGrid[y][x] = 0;
-        }
-      }
-
-      if (grid[y][x] === 0) { //dead
-        if (neighbours === 3) {
-          //new birth
-          nextTurnGrid[y][x] = 1;
-        }
-        else {
-          //stay dead
-          nextTurnGrid[y][x] = 0;
-        }
-      }
+      //update grid
+      grid[playerY][playerX] = 9;
+      grid[tempY][tempX] = 0;
     }
   }
-  return nextTurnGrid;
 }
 
 function mousePressed() {
@@ -128,6 +97,9 @@ function displayGrid() {
       }
       else if (grid[y][x] === 1) {
         fill("black");
+      }
+      else if (grid[y][x] === 9) {
+        fill("green");
       }
       rect(x*cellSize, y*cellSize, cellSize, cellSize);
     }
