@@ -33,7 +33,7 @@ let grid = [
 let cellSize;
 const GRID_SIZE = 20;
 let playerX = 17;
-let playerY = 2;
+let playerY = 1;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -55,20 +55,20 @@ function draw() {
   displayGrid();
 }
 
-function keyPressed(){
-  let y =  Math.floor(mouseY/cellSize);
-  let x =  Math.floor(mouseX/cellSize);
+//function keyPressed(){
+  //let y =  Math.floor(mouseY/cellSize);
+  //let x =  Math.floor(mouseX/cellSize);
 
-  if (grid[y][x] === 0){
-    grid[y][x] = 1;
-  }
-  else if (grid[y][x] === 1){
-    grid[y][x] === 0;
-  }
-  else if(grid[y][x] === 2){
-    grid[y][x] === 2;
-  }
-}
+  // if (grid[y][x] === 0){
+  //   grid[y][x] = 1;
+  // }
+  // else if (grid[y][x] === 1){
+  //   grid[y][x] === 0;
+  // }
+  // else if(grid[y][x] === 2){
+  //   grid[y][x] === 2;
+  // }
+//}
 
 function keyTyped(){
   if (key === "s") { //move down
@@ -86,11 +86,11 @@ function keyTyped(){
 }
 
 function movePlayer(x, y) {
-  //edge case check
+  
   if (playerX + x >= 0 && playerX + x < GRID_SIZE &&
       playerY + y >= 0 && playerY + y < GRID_SIZE) {
     
-    //check if running into a wall
+   
     if (grid[playerY + y][playerX + x] === 0) {
       let tempX = playerX;
       let tempY = playerY;
@@ -98,7 +98,7 @@ function movePlayer(x, y) {
       playerX += x;
       playerY += y;
 
-      //update grid
+      
       grid[playerY][playerX] = 9;
       grid[tempY][tempX] = 0;
     }
