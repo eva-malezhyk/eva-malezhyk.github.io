@@ -34,11 +34,20 @@ let cellSize;
 const GRID_SIZE = 20;
 let playerX = 17;
 let playerY = 1;
+let levelToload;
+let levelToloadX = 15;
+let levelToloadY = 10; 
+
+
+function preload(){
+  levelToload = loadImage("house-rpg.png");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
   grid[playerY][playerX] = 9;
+  grid[levelToloadX][levelToloadY] = 3;
 
   if (height > width){
     cellSize = width / GRID_SIZE;
@@ -108,23 +117,33 @@ function movePlayer(x, y) {
 function displayGrid(){
   for (let y = 0; y < GRID_SIZE; y++ ){
     for (let x = 0; x < GRID_SIZE; x++){
+      if(grid[y][x] === 3){
+        image(levelToload, x * cellSize, y * cellSize, cellSize * 2, cellSize * 2);
+      }
       if (grid[y][x] === 0){
         fill("YellowGreen");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
       }
       if(grid[y][x] === 1){
         fill ("OliveDrab");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
       }
       if(grid[y][x] === 2){
         fill("Sienna");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
       }
       if(grid[y][x] === 3){
         fill("Aqua");
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
       }
       if(grid[y][x] === 9){
         fill("Crimson");
-      }
-      rect(x * cellSize, y * cellSize, cellSize, cellSize);
-    }
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
+      } 
+    } 
   }
 }
+
+
+
 
