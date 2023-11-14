@@ -11,6 +11,7 @@
 -[Grid Neighbour](11-neighbour)
 -[Game of Life](13-Game-of-Life)
 -[Character](14-character)
+-[Dog OOp demo](15-dog-oop)
 
 ## Projects
 - [Interactive scene](clicking-game)
