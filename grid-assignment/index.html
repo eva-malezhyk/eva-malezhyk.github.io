@@ -23,6 +23,23 @@
   </head>
 
   <body>
+
+    <style>
+      #instructions {
+        color: DarkMagenta; 
+        font-family: Arial, sans-serif;
+      }
+    </style>
+    <div id="instructions">
+      <h2>Instructions:</h2>
+      <p>Click on a square to paint it with the selected color.</p>
+      <p>Change the color using the color picker.</p>
+      <p>To undo click Ctrl + z</p>
+    </div>
+
+    <label for="colorPicker">Pick your color:</label>
+    <input type="color" id="colorPicker" value="#000000">
+    
     <script src="sketch.js"></script>
   </body>
 </html>

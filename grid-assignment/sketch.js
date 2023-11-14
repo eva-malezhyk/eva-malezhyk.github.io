@@ -1,145 +1,99 @@
-// Project Title
-// Your Name
-// Date
+// Pixel Art 
+// Ieva Malezhyk
+// October 6th, 2023
+//
+//About: A 2D array grid where each cell represents a pixel. Users can draw by clicking cells, 
+//You can also undo actions with Ctrl+Z, select colors with a color picker, and save their drawing as a PNG file. 
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// For extra for experts I added a color picker using HTML.
+//JavaScript manages this color picker by listening for changes to the selected color. When a user selects a color, 
+//it updates the selectedColor variable. I also added a function to save the drawing when finished which is something new that 
+//I learned about while working on this project.
 
 
-let grid = [
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-  [1,3,3,3,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,1],
-  [1,3,3,3,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,1],
-  [1,3,3,3,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,1],
-  [1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-];
-
-
-let cellSize;
-const GRID_SIZE = 20;
-let playerX = 17;
-let playerY = 1;
-let levelToload;
-
-
-function preload(){
-  levelToload = loadImage("house-rpg.png");
-}
+//setting variables 
+let pixelSize = 20;
+let cols, rows;
+let grid;
+let selectedColor;
+let undoStack = [];
+let saveButton;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-
-  grid[playerY][playerX] = 9;
- 
-  if (height > width){
-    cellSize = width / GRID_SIZE;
-  }
-  else{
-    cellSize = height / GRID_SIZE;
-  }
+  createCanvas(900, 500);
+  cols = width / pixelSize;
+  rows = height / pixelSize;
+  selectedColor = '#000000';//dafault color for drawing 
+  createGrid();
+//creating a save button
+  saveButton = createButton('Save Drawing');
+  saveButton.position(width + 10, height + 10);//position
+  saveButton.mousePressed(saveCanvasState);//button click
 }
 
 function draw() {
-  background(220);
+  background(255);
   displayGrid();
 }
 
-//function keyPressed(){
-  //let y =  Math.floor(mouseY/cellSize);
-  //let x =  Math.floor(mouseX/cellSize);
+function mousePressed() {
+  //get the position where the mouse clicked 
+  let col = floor(mouseX / pixelSize);
+  let row = floor(mouseY / pixelSize);
+  
+  if (col >= 0 && col < cols && row >= 0 && row < rows) {//change the cell to selected color
+    saveState();//before changing the color save the current state
 
-  // if (grid[y][x] === 0){
-  //   grid[y][x] = 1;
-  // }
-  // else if (grid[y][x] === 1){
-  //   grid[y][x] === 0;
-  // }
-  // else if(grid[y][x] === 2){
-  //   grid[y][x] === 2;
-  // }
-//}
-
-function keyTyped(){
-  if (key === "s") { //move down
-    movePlayer(0, 1);
-  }
-  else if (key === "w") { //move up
-    movePlayer(0, -1);
-  }
-  else if (key === "a") { //move left
-    movePlayer(-1, 0);
-  }
-  else if (key === "d") { //move right
-    movePlayer(1, 0);
+    grid[row][col] = selectedColor;
   }
 }
 
-function movePlayer(x, y) {
-  
-  if (playerX + x >= 0 && playerX + x < GRID_SIZE &&
-      playerY + y >= 0 && playerY + y < GRID_SIZE) {
-    
-   
-    if (grid[playerY + y][playerX + x] === 0) {
-      let tempX = playerX;
-      let tempY = playerY;
+function keyPressed() {
+  if (keyIsDown(CONTROL) && key === 'z') {//undo changes when Ctrl + z is pressed
+    restoreState();//restore previous changes
+  }
+}
 
-      playerX += x;
-      playerY += y;
+function saveState() {//save current state
+  let currentState = JSON.parse(JSON.stringify(grid));
+  undoStack.push(currentState);
+}
 
-      
-      grid[playerY][playerX] = 9;
-      grid[tempY][tempX] = 0;
+function restoreState() {//if has changes, restore the previous state
+  if (undoStack.length > 0) {
+    grid = undoStack.pop();
+  }
+}
+
+function createGrid() {  // Initialize the grid with default color '#ffffff' (white)
+  grid = new Array(rows);
+  for (let i = 0; i < rows; i++) {
+    grid[i] = new Array(cols).fill('#ffffff');
+  }
+}
+
+function displayGrid() {//displaying grid on canvas 
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let x = j * pixelSize;
+      let y = i * pixelSize;
+
+      fill(grid[i][j]);//cell color
+      stroke(0);
+      rect(x, y, pixelSize, pixelSize); //draw cell rectangle
     }
   }
 }
 
-function displayGrid(){
-  for (let y = 0; y < GRID_SIZE; y++ ){
-    for (let x = 0; x < GRID_SIZE; x++){
-      if (grid[y][x] === 0){
-        fill("YellowGreen");
-        rect(x * cellSize, y * cellSize, cellSize, cellSize);
-      }
-      if(grid[y][x] === 1){
-        fill ("OliveDrab");
-        rect(x * cellSize, y * cellSize, cellSize, cellSize);
-      }
-      if(grid[y][x] === 2){
-        fill("Sienna");
-        rect(x * cellSize, y * cellSize, cellSize, cellSize);
-      }
-      if(grid[y][x] === 3){
-        fill("Aqua");
-        rect(x * cellSize, y * cellSize, cellSize, cellSize);
-      }
-      if(grid[y][x] === 4){
-        image(levelToload, x * cellSize, y * cellSize, width / GRID_SIZE , height / GRID_SIZE);
-      }
-      if(grid[y][x] === 9){
-        fill("Crimson");
-        rect(x * cellSize, y * cellSize, cellSize, cellSize);
-      } 
-    } 
-  }
+function saveCanvasState() {
+  saveCanvas('drawing', 'png');  //Save the canvas as a PNG image with the name 'drawing'
 }
 
-
+// Event listener for color picker to update selectedColor
+document.getElementById('colorPicker').addEventListener('input', function(e) {
+  selectedColor = e.target.value;
+});
 
 
 
