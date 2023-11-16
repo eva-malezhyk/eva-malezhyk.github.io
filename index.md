@@ -12,6 +12,9 @@
 -[Game of Life](13-Game-of-Life)
 -[Character](14-character)
 -[Dog OOp demo](15-dog-oop)
+-[Walker OOP demo](16-walker-oop)
+-[Ball OOP demo](17-ball-oop)
+
 
 ## Projects
 - [Interactive scene](clicking-game)
