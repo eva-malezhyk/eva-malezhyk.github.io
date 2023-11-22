@@ -8,20 +8,24 @@ function setup() {
 
 function draw() {
   background(220);
-  points.update();
-  points.display();
-}
+  for (let point of points) {
+    point.update();       
+    point.connectTo(points);
 
-function mousePressed(){
-  let thePoint = new MovingPoint(mouseX, mouseY);
-  points.push(thePoint);
-  for(let thePoint of points){
-    points.display();
+  }
+  for (let point of points) {
+ 
+    point.display();
   }
 }
 
-class MovingPoint{
-  constructor(x,y){
+function mousePressed() {
+  let thePoint = new MovingPoint(mouseX, mouseY);
+  points.push(thePoint);
+}
+
+class MovingPoint {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
     this.color = color(random(255), random(255), random(255));
@@ -32,24 +36,64 @@ class MovingPoint{
     this.reach = 150;
   }
 
-  display(){
+  display() {
     noStroke();
     fill(this.color);
-    circle(this.x, this.y, this.radius * 2);
-
+    circle(this.x, this.y, this.radius*2);
   }
 
-  update(){
+  update() {
+    //move point
     let dx = noise(this.xTime);
-    dx = map(dx, 0, 1, -5, 5);
+    this.dx = map(dx, 0, 1, -5, 5);
     let dy = noise(this.yTime);
-    dy = map(dy, 0, 1, -1, 5);
-    
+    this.dy = map(dy, 0, 1, -5, 5);
+
     this.x += this.dx;
-    this.dy += this.y;
+    this.y += this.dy;
 
     this.xTime += this.deltaTime;
     this.yTime += this.deltaTime;
+
+    //wrap around screen
+    if (this.x < 0) {
+      this.x += width;
+    }
+    if (this.x > width) {
+      this.x -= width;
+    }
+    if (this.y < 0) {
+      this.y += height;
+    }
+    if (this.y > height) {
+      this.y -= height;
+    } 
+    //adjust size based on mouse
+    let mouseDistance = dist(this.x, this.y, mouseX, mouseY);
+    if(mouseDistance < this.reach){
+      //make circle bigger
+      let theSize = map(mouseDistance, 0, this.reach, 30, 15);
+      this.radius = theSize;
+    }
+    else {
+      //set circle to regular size
+      this.radius = 15;
+    }
+
+  }
+
+ 
+
+
+  connectTo(pointsArray) {
+    for (let otherPoint of pointsArray) {
+      if (this !== otherPoint) {
+        if (dist(this.x, this.y, otherPoint.x, otherPoint.y) <
+             this.reach) {
+          stroke(this.color);
+          line(this.x, this.y, otherPoint.x, otherPoint.y);
+        }
+      }
+    }
   }
 }
-
